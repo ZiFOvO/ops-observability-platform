@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+
+# Helm
+*.tgz
+
+# Kubernetes
+*.log
+
+# Secrets
+*.env
+secrets/
+**/secrets.yaml
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
