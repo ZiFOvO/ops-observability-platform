@@ -6,18 +6,19 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-cloudflare
 spec:
+  ingressClassName: traefik
   tls:
     - hosts:
-      - grafana.opsscope.dev
+        - grafana.opsscope.dev
       secretName: grafana-tls
   rules:
     - host: grafana.opsscope.dev
       http:
         paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: monitoring-grafana
-              port:
-                number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: monitoring-grafana
+                port:
+                  number: 80
