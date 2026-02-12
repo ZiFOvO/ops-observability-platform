@@ -67,6 +67,7 @@ prometheus:
 
 alertmanager:
   alertmanagerSpec:
+    configSecret: my-alertmanager-config
     storage:
       volumeClaimTemplate:
         spec:
