@@ -1,4 +1,24 @@
 grafana:
+  enabled: true
+
+  admin:
+    existingSecret: grafana-admin
+
+  grafana.ini:
+    server:
+      domain: grafana.opsscope.dev
+      root_url: https://grafana.opsscope.dev
+      enforce_domain: true
+
+    users:
+      allow_sign_up: false
+
+    security:
+      cookie_secure: true
+      cookie_samesite: lax
+      disable_gravatar: true
+      allow_embedding: false
+
   initChownData:
     enabled: false
 
@@ -6,13 +26,19 @@ grafana:
     runAsUser: 472
     runAsGroup: 472
     fsGroup: 472
+    runAsNonRoot: true
 
-  enabled: true
-  adminPassword: "change-me-now"
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
   persistence:
     enabled: true
     type: pvc
     size: 5Gi
+
   resources:
     requests:
       memory: 256Mi
