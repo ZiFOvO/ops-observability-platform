@@ -1,0 +1,58 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: platform-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: platform.rules
+      rules:
+        - alert: KubeNodeNotReady
+          expr: kube_node_status_condition{condition="Ready",status="true"} == 0
+          for: 5m
+          labels:
+            severity: critical
+            team: platform
+            service: k3s
+            environment: dev
+          annotations:
+            summary: "Node not Ready: {{ $labels.node }}"
+            description: "Kubernetes node {{ $labels.node }} has been NotReady for > 5m."
+
+        - alert: KubePodCrashLooping
+          expr: max_over_time(kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff"}[5m]) >= 1
+          for: 10m
+          labels:
+            severity: warning
+            team: platform
+            service: k3s
+            environment: dev
+          annotations:
+            summary: "Pod crash looping: {{ $labels.namespace }}/{{ $labels.pod }}"
+            description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} CrashLoopBackOff for > 10m."
+
+        - alert: KubeDeploymentReplicasMismatch
+          expr: kube_deployment_spec_replicas != kube_deployment_status_replicas_available
+          for: 15m
+          labels:
+            severity: warning
+            team: platform
+            service: k3s
+            environment: dev
+          annotations:
+            summary: "Deployment replicas mismatch: {{ $labels.namespace }}/{{ $labels.deployment }}"
+            description: "Deployment {{ $labels.namespace }}/{{ $labels.deployment }} has unavailable replicas for > 15m."
+
+        - alert: PrometheusTargetMissing
+          expr: up == 0
+          for: 10m
+          labels:
+            severity: warning
+            team: platform
+            service: k3s
+            environment: dev
+          annotations:
+            summary: "Target down: job={{ $labels.job }} instance={{ $labels.instance }}"
+            description: "Prometheus cannot scrape this target for > 10m."
