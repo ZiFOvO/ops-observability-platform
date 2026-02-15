@@ -1,23 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: grafana
+  name: alertmanager
   namespace: monitoring
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-cloudflare
 spec:
   tls:
     - hosts:
-        - grafana.opsscope.dev
-      secretName: grafana-tls
+        - alertmanager.opsscope.dev
+      secretName: alertmanager-tls
   rules:
-    - host: grafana.opsscope.dev
+    - host: alertmanager.opsscope.dev
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: monitoring-grafana
+                name: monitoring-kube-prometheus-alertmanager
                 port:
-                  number: 80
+                  number: 9093
