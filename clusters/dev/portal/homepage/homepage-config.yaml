@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: portal
+data:
+  settings.yaml: |
+    title: OpsScope Platform
+    theme: dark
+    color: slate
+    headerStyle: boxed
+    background:
+      image: ""
+      blur: sm
+      opacity: 20
+  
+  bookmark.yaml: |
+    - DevOps:
+        - GitHub Repo:
+            - abbr: GH
+              href: https://github.com/ZiFOvO/ops-observability-platform.git
+        - Runbooks:
+            - abbr: RB
+              href: https://github.com/ZiFOvO/ops-observability-platform/tree/main/clusters/dev/observability/runbooks
+  
+  services.yaml: |
+    - Observability:
+        - Grafana:
+            icon: grafana
+            href: https://grafana.opsscope.dev
+            description: Dashboard and visualization
+        - Prometheus:
+            icon: prometheus
+            href: https://prometheus.opsscope.dev
+            description: Metrics and targets
+        - Alertmanager:
+            icon: alertmanager
+            href: https://alertmanager.opsscope.dev
+            description: Alert routing and silences
+        - Loki:
+            icon: loki
+            href: https://loki.opsscope.dev
+            description: Log aggregation
+
+    - Delivery:
+        - CI/CD (GitHub Actions):
+            icon: github
+            href: https://github.com/ZiFOvO/ops-observability-platform/actions
+            description: Pipelines and deployments
+
+    - Infrastructure:
+        - Kubernetes:
+            icon: kubernetes
+            href: https://kubernetes.io/
+            description: Cluster and workloads
+  
+  widgets.yaml: |
+    - resources:
+        cpu: true
+        memory: true
+        disk: /
