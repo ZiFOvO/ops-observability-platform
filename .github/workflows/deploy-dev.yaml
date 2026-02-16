@@ -1,0 +1,21 @@
+name: Deploy (dev)
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "clusters/dev/**"
+  workflow_dispatch: {}
+
+jobs:
+  apply:
+    runs-on: [self-hosted, linux, x64, k3s]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify cluster
+        run: kubectl get nodes
+      
+      - name: Apply manifests
+        run: kubectl apply -f clusters/dev/ --recursive
