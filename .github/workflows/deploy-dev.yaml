@@ -5,21 +5,53 @@ on:
     branches: ["main"]
     paths:
       - "clusters/dev/**"
+      - ".github/workflows/deploy-dev.yaml"
   workflow_dispatch: {}
 
 jobs:
-  apply:
-    runs-on: [self-hosted, linux, x64, k3s]
+  deploy:
+    runs-on: [self-hosted, linux, k3s]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify cluster
-        run: kubectl get nodes
-      
+      - name: Verify cluster access
+        run: |
+          set -euo pipefail
+          kubectl get nodes
+
+      # Apply only Kubernetes manifests (skip Helm values)
       - name: Apply Kubernetes manifests (exclude Helm values)
         run: |
           set -euo pipefail
           find clusters/dev -type f -name '*.yaml' \
             ! -path '*/helm-values/*' \
             -print0 | xargs -0 -n1 kubectl apply -f
+
+      # Install Helm if not present on the runner host
+      - name: Install Helm (if missing)
+        run: |
+          set -euo pipefail
+          if ! command -v helm >/dev/null 2>&1; then
+            curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          fi
+          helm version
+
+      - name: Helm deploy for monitoring tools config file
+        run: |
+          set -euo pipefail
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm repo update
+          helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
+            -n monitoring --create-namespace \
+            -f clusters/dev/observability/helm-values/kube-prometheus-stack.values.yaml
+
+      - name: Helm deploy for loki config file
+        run: |
+          set -euo pipefail
+          helm repo add grafana https://grafana.github.io/helm-charts
+          helm repo update
+          helm upgrade --install logging grafana/loki-stack \
+            -n logging --create-namespace \
+            -f clusters/dev/observability/helm-values/loki-stack.values.yaml
+
