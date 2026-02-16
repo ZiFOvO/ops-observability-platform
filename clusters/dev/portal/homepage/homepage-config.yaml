@@ -9,11 +9,11 @@ data:
     theme: dark
     headerStyle: clean
 
-  bookmark.yaml: |
-    - DevOps:
-        - GitHub Repo:
-            - abbr: GH
-              href: https://github.com/ZiFOvO/ops-observability-platform.git
+  bookmarks.yaml: |
+    - Links:
+        - Homepage Docs:
+            - href: https://gethomepage.dev
+              description: Docs
   
   services.yaml: |
     - Observability:
@@ -31,10 +31,7 @@ data:
             description: Log aggregation
   
   widgets.yaml: |
-    - resources:
-        cpu: true
-        memory: true
-        disk: /
+    []
 
   kubernetes.yaml: |
     mode: cluster
