@@ -17,5 +17,9 @@ jobs:
       - name: Verify cluster
         run: kubectl get nodes
       
-      - name: Apply manifests
-        run: kubectl apply -f clusters/dev/ --recursive
+      - name: Apply Kubernetes manifests (exclude Helm values)
+        run: |
+          set -euo pipefail
+          find clusters/dev -type f -name '*.yaml' \
+            ! -path '*/helm-values/*' \
+            -print0 | xargs -0 -n1 kubectl apply -f
