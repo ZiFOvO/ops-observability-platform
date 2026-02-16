@@ -20,6 +20,13 @@ jobs:
           set -euo pipefail
           kubectl get nodes
 
+      - name: Diff manifests (preview)
+        run: |
+          set -euo pipefail
+          find clusters/dev -type f -name '*.yaml' \
+            ! -path '*/helm-values/*' \
+            -print0 | xargs -0 -n1 kubectl diff -f || true
+
       # Apply only Kubernetes manifests (skip Helm values)
       - name: Apply Kubernetes manifests (exclude Helm values)
         run: |
@@ -54,4 +61,13 @@ jobs:
           helm upgrade --install logging grafana/loki-stack \
             -n logging --create-namespace \
             -f clusters/dev/observability/helm-values/loki-stack.values.yaml
+      
+      - name: Smoke tests
+        run: |
+          set -euo pipefail
+          kubectl -n monitoring get pods
+          kubectl -n logging get pods
+          kubectl -n portal get deploy,svc,ingress
+          kubectl -n monitoring get ingress grafana prometheus alertmanager
+
 
