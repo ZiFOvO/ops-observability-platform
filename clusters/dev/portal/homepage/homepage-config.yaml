@@ -8,30 +8,80 @@ data:
     title: OpsScope Platform
     theme: dark
     headerStyle: clean
+    layout:
+      Observability:
+        style: row
+        columns: 2
+      Shortcuts:
+        style: row
+        columns: 2
 
   bookmarks.yaml: |
-    - Links:
-        - Homepage Docs:
-            - href: https://gethomepage.dev
-              description: Docs
+    - Operations:
+        - Grafana Explore:
+            - icon: grafana
+              href: https://grafana.opsscope.dev/explore
+              description: Investigate logs & metrics
+        - Prometheus Alerts:
+            - icon: prometheus
+              href: https://prometheus.opsscope.dev/alerts
+              description: Alert & rule status
+        - Kubernetes Namespaces:
+            - icon: kubernetes
+              href: https://prometheus.opsscope.dev/graph?g0.expr=kube_namespace_created&g0.tab=1
+              description: Cluster sanity check
+    - Docs:
+        - Kubernetes Docs:
+            - icon: kubernetes
+              href: https://kubernetes.io/docs/home/
+              description: Kubernetes docs
+
+    - Runbooks:
+        - Platform Runbooks:
+            - icon: github
+              href: https://github.com/ZiFOvO/ops-observability-platform/blob/main/clusters/dev/observability/runbooks/README.md
+              description: What to do when something breaks
   
   services.yaml: |
     - Observability:
         - Grafana:
+            icon: grafana
             href: https://grafana.opsscope.dev
-            description: Dashboard and visualization
+            description: Dashboards + Explore
         - Prometheus:
-            href: https://prometheus.opsscope.dev
-            description: Metrics and targets
+            icon: prometheus
+            href: https://prometheus.opsscope.dev/targets
+            description: Scrape health
         - Alertmanager:
-            href: https://alertmanager.opsscope.dev
-            description: Alert routing and silences
+            icon: alertmanager
+            href: https://alertmanager.opsscope.dev/#/alerts
+            description: Active alerts
         - Loki:
+            icon: loki
             href: https://loki.opsscope.dev
-            description: Log aggregation
+            description: Log API / UI
   
   widgets.yaml: |
-    []
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+        nodes:
+          show: true
+        pods:
+          show: true
+
+    - datetime:
+        text_size: xl
+        format:
+          dateStyle: full
+          timeStyle: short
+
+    - search:
+        provider: google
+        target: _blank
 
   kubernetes.yaml: |
     mode: cluster
