@@ -44,11 +44,16 @@ data:
   
   services.yaml: |
     - Observability:
+        - Platform Overview:
+            icon: grafana
+            href: https://grafana.opsscope.dev/d/zi9qw5h/platform-overview?kiosk
+            description: Live cluster overview
+    
         - Grafana:
             icon: grafana
             href: https://grafana.opsscope.dev
-            description: Dashboards + Explore
-        - Prometheus:
+            description: Dashboards
+        - Prometheus Targets:
             icon: prometheus
             href: https://prometheus.opsscope.dev/targets
             description: Scrape health
@@ -60,6 +65,17 @@ data:
             icon: loki
             href: https://loki.opsscope.dev/ready
             description: Log backend readiness
+    
+    - DevOps:
+        - VS Code:
+            icon: vscode
+            href: https://code.visualstudio.com/
+            description: Development environment
+        - Docker Desktop:
+            icon: docker
+            href: https://www.docker.com/products/docker-desktop/
+            description: Container runtime
+
   
   widgets.yaml: |
     - kubernetes:
