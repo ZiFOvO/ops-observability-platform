@@ -31,12 +31,14 @@ This project demonstrates infrastructure-as-code delivery, secure ingress design
 
 ### High-Level Traffic Flow
 
+```
 User
 └── Cloudflare Access (authentication)
     └── Cloudflare Tunnel
         └── Traefik Ingress
             └── Kubernetes Service
                 └── Pod
+```
 
 No public NodePorts.  
 No router NAT forwarding.  
@@ -114,7 +116,7 @@ Infrastructure is version-controlled.
 ---
 
 ## Repository Structure
-
+```
 ops-observability-platform
 ├── apps
 ├── clusters
@@ -149,7 +151,7 @@ ops-observability-platform
 │               └── whoami-ingress.yaml
 ├── README.md
 └── scripts
-
+```
 ---
 
 ## Public Endpoints (Access-Protected)
