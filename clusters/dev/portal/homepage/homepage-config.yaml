@@ -12,7 +12,7 @@ data:
       Observability:
         style: row
         columns: 2
-      Shortcuts:
+      Operations:
         style: row
         columns: 2
 
@@ -38,7 +38,7 @@ data:
 
     - Runbooks:
         - Platform Runbooks:
-            - icon: github
+            - icon: si-github
               href: https://github.com/ZiFOvO/ops-observability-platform/blob/main/clusters/dev/observability/runbooks/README.md
               description: What to do when something breaks
   
@@ -58,8 +58,8 @@ data:
             description: Active alerts
         - Loki:
             icon: loki
-            href: https://loki.opsscope.dev
-            description: Log API / UI
+            href: https://loki.opsscope.dev/ready
+            description: Log backend readiness
   
   widgets.yaml: |
     - kubernetes:
