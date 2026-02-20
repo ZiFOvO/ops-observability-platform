@@ -1,3 +1,10 @@
+defaultRules:
+  create: true
+  rules:
+    kubeScheduler: false
+    kubeControllerManager: false
+    kubeProxy: false
+    
 grafana:
   enabled: true
 
@@ -94,6 +101,3 @@ prometheus-node-exporter:
     requests:
       memory: 64Mi
       cpu: 20m
-
-defaultRules:
-  create: true
