@@ -2,6 +2,7 @@ defaultRules:
   create: true
   rules:
     kubeScheduler: false
+    kubeSchedulerAlerting: false
     kubeControllerManager: false
     kubeProxy: false
     
