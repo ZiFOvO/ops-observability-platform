@@ -50,6 +50,7 @@ jobs:
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
           helm repo update
           helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
+            --version 85.0.0 \
             -n monitoring --create-namespace \
             -f clusters/dev/observability/helm-values/kube-prometheus-stack.values.yaml
 
